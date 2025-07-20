@@ -4,7 +4,7 @@ A free and offline PowerPoint compressor tool for windows. Ultra-leight, fast an
 
 ## How to use
 
-(Download)[https://github.com/arthur-adriansens/compressPowerPoints/archive/refs/heads/master.zip] and extract the zip file from this Github repository. Double click on compress_NL.bat (or compress_EN.bat) to compress all presentation files in the current directory and all subdirectory.
+[Download](https://github.com/arthur-adriansens/compressPowerPoints/archive/refs/heads/master.zip) and extract the zip file from this Github repository. Double click on compress_NL.bat (or compress_EN.bat) to compress all presentation files in the current directory and all subdirectory.
 
 "pptx-tijdelijk\_..." folders that weren't removed automatically can be safelly deleted.
 
