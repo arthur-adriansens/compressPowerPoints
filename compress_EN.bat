@@ -7,8 +7,8 @@ setlocal enabledelayedexpansion
 :: Enable UTF-8 for emojis and special characters
 chcp 65001
 
-set count=0
-set done=0
+set "count=0"
+set "done=0"
 
 for /F %%a in ('echo prompt $E ^| cmd') do set "ESC=%%a"
 
@@ -20,18 +20,19 @@ set "JPEGTRAN=%TOOLS_DIR%\jpegtran.exe"
 
 :: Check for .pptx-files, ">nul 2>&1" prevents echo
 dir /b *.pptx >nul 2>&1 || (
-    echo X No PowerPoints found
+    echo X Geen PowerPoints gevonden
     pause
     exit /b
 )
 
-<nul set /p ="%ESC%[30;102m🟢🚀 Step 1: Unpack all PowerPoints...%ESC%[0m"
+<nul set /p ="%ESC%[30;102m🟢 Step 1: Unpack all PowerPoints...%ESC%[0m"
+echo.
 
 :: Go through all .pptx-files
 for /R %%f in (*.pptx) do (
     :: Create temporary work folder in current folder
     set "BESTANDSNAAM=%%~nf"
-    set "WERKMAP=%cd%\pptx-temporary_!BESTANDSNAAM!"
+    set "WERKMAP=%cd%\pptx-tijdelijk_!BESTANDSNAAM!"
 
     echo ---------------------------------------------
     echo 🔄 Unpacking: %%f...
@@ -40,31 +41,56 @@ for /R %%f in (*.pptx) do (
     if exist "!WERKMAP!" rd /s /q "!WERKMAP!" >nul 2>&1
     md "!WERKMAP!"
 
-    :: Pak .pptx uit
+    :: Unpack .pptx
     "%SEVENZIP%" x "%%f" -o"!WERKMAP!" >nul
 
-    echo 📂 Compression of images in !WERKMAP!\ppt\media...
+    <nul set /p ="%ESC%[30;102m📂 Compression of images in !WERKMAP!\ppt\media...%ESC%[0m"
+    echo.
 
     :: Compress PNG's lossless with progres and filtered output
     if exist "!WERKMAP!\ppt\media\*.png" (
-        for %%i in ("!WERKMAP!\ppt\media\*.png") do (
-            "%OPTIPNG%" -o2 "%%i" >nul
+        set /a count=0
+        for /f %%i in ('dir /b /a:-d "!WERKMAP!\ppt\media\*.png" 2^>nul') do (
+            set /a count+=1
+        )
+
+        set /a done=0
+        for /f %%i in ('dir /b /a:-d "!WERKMAP!\ppt\media\*.png" 2^>nul') do (
+            set /a done+=1
+            set /a progress="(!done!*30)/!count!"
+            set "bar=["
+            for /L %%p in (1,1,!progress!) do set "bar=!bar!#"
+            for /L %%s in (!progress!,1,29) do set "bar=!bar!."
+            set "bar=!bar!]"
+            <nul set /p="🔧 !bar! !done!/!count! `%%~nxi` "
+
+            Rem "%OPTIPNG%" -o2 -quiet "!WERKMAP!\ppt\media\%%i"
+            set "output="
+            for /f "delims=" %%r in ('cmd /c "%OPTIPNG% -o2 "!WERKMAP!\ppt\media\%%i" 2>&1 | findstr /C:"Output file size =" "') do set "output=%%r"
+            
+            if defined output (
+                echo 👉 !output!
+            ) else (
+                echo ✅ Reeds geoptimaliseerd: %%~nxi
+            )
         )
     )
 
     :: Compress JPG's lossless
-    if exist "!WERKMAP!\ppt\media\*.jpg" (
-        for %%j in ("!WERKMAP!\ppt\media\*.jpg") do (
-            "%JPEGTRAN%" -optimize -copy none -outfile "%%j" "%%j" >nul
+    if exist "!WERKMAP!\ppt\media\*.jpeg" (
+        for /f %%j in ('dir /b /a:-d "!WERKMAP!\ppt\media\*.jpeg" 2^>nul') do (
+            echo "🤖🪄 JPEG: %%j"
+
+            "%JPEGTRAN%" -optimize -copy none -outfile "!WERKMAP!\ppt\media\%%j" "!WERKMAP!\ppt\media\%%j"
         )
     )
 
-    echo ✅ Compression finished for !BESTANDSNAAM!
+    echo ✅ Compressie afgerond voor !BESTANDSNAAM!
     echo ---------------------------------------------
+    echo.
 )
 
-echo.
-<nul set /p ="%ESC%[30;102m🟠 Press ENTER to pack the PowerPoints%ESC%[0m"
+echo 🟠 Press ENTER to pack the PowerPoints
 pause
 
 <nul set /p ="%ESC%[30;102m🟢 Step 2: Pack all the PowerPoints...%ESC%[0m"
