@@ -26,4 +26,4 @@ https://www.7-zip.org/download.html
 ## 🌍 Available languages
 
 -   🇬🇧 [English](README.md)
--   🇳🇱 [Nederlands](README%20-%20NL.md)
+-   🇳🇱 [Nederlands](README_NL.md)
