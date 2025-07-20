@@ -1,45 +1,51 @@
+:: Copyright (c) 2025 Arthur
+:: Licensed under CC BY-NC 4.0 — Non-commercial use only, with attribution
+:: https://creativecommons.org/licenses/by-nc/4.0/
+
 @echo off
 setlocal enabledelayedexpansion
+:: Enable UTF-8 for emojis and special characters
+chcp 65001
 
 set count=0
 set done=0
 
 for /F %%a in ('echo prompt $E ^| cmd') do set "ESC=%%a"
 
-:: Pad naar 7-Zip en compressie tools
+:: Path to 7-Zip and compression tools
 set "TOOLS_DIR=%~dp0tools"
 set "SEVENZIP=%TOOLS_DIR%\7-Zip\7z.exe"
 set "OPTIPNG=%TOOLS_DIR%\optipng.exe"
 set "JPEGTRAN=%TOOLS_DIR%\jpegtran.exe"
 
-:: Controleer op .pptx-bestanden, ">nul 2>&1" onderdrukt echo
+:: Check for .pptx-files, ">nul 2>&1" prevents echo
 dir /b *.pptx >nul 2>&1 || (
-    echo X Geen PowerPoints gevonden
+    echo X No PowerPoints found
     pause
     exit /b
 )
 
-<nul set /p ="%ESC%[30;102m🟢 Stap 1: Uitpakken van alle PowerPoints...%ESC%[0m"
+<nul set /p ="%ESC%[30;102m🟢🚀 Step 1: Unpack all PowerPoints...%ESC%[0m"
 
-:: Doorloop alle .pptx-bestanden
+:: Go through all .pptx-files
 for /R %%f in (*.pptx) do (
-    :: Maak tijdelijke werkmap aan in de huidige map
+    :: Create temporary work folder in current folder
     set "BESTANDSNAAM=%%~nf"
-    set "WERKMAP=%cd%\pptx-tijdelijk_!BESTANDSNAAM!"
+    set "WERKMAP=%cd%\pptx-temporary_!BESTANDSNAAM!"
 
     echo ---------------------------------------------
-    echo 🔄 Uitpakken: %%f...
+    echo 🔄 Unpacking: %%f...
     
-    :: Verwijder oude werkmap als die bestaat
+    :: Delete old work folders if they excist
     if exist "!WERKMAP!" rd /s /q "!WERKMAP!" >nul 2>&1
     md "!WERKMAP!"
 
     :: Pak .pptx uit
     "%SEVENZIP%" x "%%f" -o"!WERKMAP!" >nul
 
-    echo 📂 Compressie van afbeeldingen in !WERKMAP!\ppt\media...
+    echo 📂 Compression of images in !WERKMAP!\ppt\media...
 
-    :: Compress PNG's lossless met voortgang en gefilterde output
+    :: Compress PNG's lossless with progres and filtered output
     if exist "!WERKMAP!\ppt\media\*.png" (
         for %%i in ("!WERKMAP!\ppt\media\*.png") do (
             "%OPTIPNG%" -o2 "%%i" >nul
@@ -53,32 +59,32 @@ for /R %%f in (*.pptx) do (
         )
     )
 
-    echo ✅ Compressie afgerond voor !BESTANDSNAAM!
+    echo ✅ Compression finished for !BESTANDSNAAM!
     echo ---------------------------------------------
 )
 
 echo.
-<nul set /p ="%ESC%[30;102m🟠 Druk op ENTER om de PowerPoints in te pakken%ESC%[0m"
+<nul set /p ="%ESC%[30;102m🟠 Press ENTER to pack the PowerPoints%ESC%[0m"
 pause
 
-<nul set /p ="%ESC%[30;102m🟢 Stap 2: Inpakken van alle PowerPoints...%ESC%[0m"
+<nul set /p ="%ESC%[30;102m🟢 Step 2: Pack all the PowerPoints...%ESC%[0m"
 
 for /R %%f in (*.pptx) do (
     set "BESTANDSNAAM=%%~nf"
 	set "BESTANDSPAD=%%~dpf"
     set "WERKMAP=%cd%\pptx-tijdelijk_!BESTANDSNAAM!"
     
-    echo 📦 Inpakken: !BESTANDSNAAM!...
+    echo 📦 Packing: !BESTANDSNAAM!...
 
     pushd "!WERKMAP!"
     "!SEVENZIP!" a -tzip "!BESTANDSPAD!comprim_!BESTANDSNAAM!.pptx" * >nul 2>&1
     popd
 
-    echo ✅ Klaar: !BESTANDSPAD!comprim_!BESTANDSNAAM!.pptx
+    echo 🚀 Finished: !BESTANDSPAD!comprim_!BESTANDSNAAM!.pptx
 
     if exist "!WERKMAP!" rd /s /q "!WERKMAP!" >nul 2>&1
 )
 
 echo.
-echo 🎉 Alles is verwerkt. Druk op ENTER om af te sluiten.
+echo 🎉 Everything is processed. Press ENTER to close the script.
 pause
