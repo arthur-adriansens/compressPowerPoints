@@ -22,3 +22,8 @@ https://jpegclub.org/jpegtran/ (https://jpegclub.org/jpegtran/jpegtran.exe)
 https://optipng.sourceforge.net/
 
 https://www.7-zip.org/download.html
+
+## 🌍 Beschikbare talen
+
+-   🇬🇧 [English](README.md)
+-   🇳🇱 [Nederlands](README%20-%20NL.md)
