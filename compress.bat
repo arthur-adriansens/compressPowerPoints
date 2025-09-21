@@ -18,8 +18,8 @@ set "SEVENZIP=%TOOLS_DIR%\7-Zip\7z.exe"
 set "OPTIPNG=%TOOLS_DIR%\optipng.exe"
 set "JPEGTRAN=%TOOLS_DIR%\jpegtran.exe"
 
-:: Controleer op .pptx-bestanden, ">nul 2>&1" onderdrukt echo
-dir /b *.pptx >nul 2>&1 || (
+:: Controleer op .pptx-bestanden in huidige map en submappen, ">nul 2>&1" onderdrukt echo
+dir /s /b *.pptx >nul 2>&1 || (
     echo X Geen PowerPoints gevonden
     pause
     exit /b
@@ -28,7 +28,7 @@ dir /b *.pptx >nul 2>&1 || (
 <nul set /p ="%ESC%[30;102m🟢 Stap 1: Uitpakken en compressie van alle PowerPoints...%ESC%[0m"
 echo.
 
-:: Doorloop alle .pptx-bestanden
+:: Doorloop alle .pptx-bestanden in huidige map en submappen
 for /R %%f in (*.pptx) do (
     :: Maak tijdelijke werkmap aan in de huidige map
     set "BESTANDSNAAM=%%~nf"

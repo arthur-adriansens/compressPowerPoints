@@ -18,8 +18,8 @@ set "SEVENZIP=%TOOLS_DIR%\7-Zip\7z.exe"
 set "OPTIPNG=%TOOLS_DIR%\optipng.exe"
 set "JPEGTRAN=%TOOLS_DIR%\jpegtran.exe"
 
-:: Check for .pptx-files, ">nul 2>&1" prevents echo
-dir /b *.pptx >nul 2>&1 || (
+:: Check for .pptx-files in current folder and subfolders, ">nul 2>&1" prevents echo
+dir /s /b *.pptx >nul 2>&1 || (
     echo X Geen PowerPoints gevonden
     pause
     exit /b
@@ -28,7 +28,7 @@ dir /b *.pptx >nul 2>&1 || (
 <nul set /p ="%ESC%[30;102m🟢 Step 1: Unpack all PowerPoints...%ESC%[0m"
 echo.
 
-:: Go through all .pptx-files
+:: Go through all .pptx-files in current folder and subfolders
 for /R %%f in (*.pptx) do (
     :: Create temporary work folder in current folder
     set "BESTANDSNAAM=%%~nf"
