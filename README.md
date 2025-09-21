@@ -1,19 +1,21 @@
 # PowerPoint compressor
 
-A free and offline PowerPoint compressor tool for windows. Ultra-leight, fast and reliable. No network connection or any setup required! All tools are included. Feel free to report any bugs or to request features in the issues section.
+Een gratis en offline PowerPoint compressor tool voor Windows. Ultra-licht, snel en betrouwbaar. Geen netwerkverbinding of installatie nodig! Alle tools zitten er al bij. U kunt bugs melden of nieuwe functies aanvragen in de issues sectie van deze GitHub repository.
 
-## How to use
+## Hoe te gebruiken
 
-[Download](https://github.com/arthur-adriansens/compressPowerPoints/archive/refs/heads/master.zip) and extract the zip file from this Github repository. Double click on compress_EN.bat to compress all presentation files in the current directory and all subdirectories.
+1. [Download](https://github.com/arthur-adriansens/compressPowerPoints/archive/refs/heads/master.zip) en extract de zip file van deze GitHub repository.
+2. Kopieer uw PowerPoints naar deze folder of naar de powerpoints folder. Opgelet: **alle PowerPoints** zullen gecompressed worden (ook degene die reeds aangepast zijn).
+3. Dubbel klik op compress.bat om alle presentaties te compressen _in de huidige directory en alle subdirectories_.
 
-"pptx-tijdelijk\_..." folders that weren't removed automatically can be safelly deleted.
+"pptx-tijdelijk\_..." folders die niet automatisch verwijderd werden kunt u zonder zorgen verwijderen.
 
 ## License
 
 This project is licensed under the Creative Commons Attribution-NonCommercial 4.0 International License.  
 Commercial use is **not allowed without written permission**.
 
-See [LICENSE](./LICENSE) for details.
+Zie [LICENSE](./LICENSE) voor meer details.
 
 ## Tools source:
 
@@ -23,7 +25,11 @@ https://optipng.sourceforge.net/
 
 https://www.7-zip.org/download.html
 
-## 🌍 Available languages
+## 🌍 Beschikbare talen
 
--   🇬🇧 [English](README.md)
--   🇳🇱 [Nederlands](README_NL.md)
+-   🇬🇧 [English](README_EN.md)
+-   🇳🇱 [Nederlands](README.md)
+
+## Dev note
+
+Sometimes, it's encoded with Unix (LF). This will break everything. Open in Notepad++, go to edit and EOL conversion. Click Windows (CR LF)
