@@ -7,6 +7,7 @@ Een gratis en offline PowerPoint compressor tool voor Windows. Ultra-licht, snel
 1. [Download](https://github.com/arthur-adriansens/compressPowerPoints/archive/refs/heads/master.zip) en extract de zip file van deze GitHub repository.
 2. Kopieer uw PowerPoints naar deze folder of naar de powerpoints folder. Opgelet: **alle PowerPoints** zullen gecompressed worden (ook degene die reeds aangepast zijn).
 3. Dubbel klik op compress.bat om alle presentaties te compressen _in de huidige directory en alle subdirectories_.
+4. Uw geoptimaliseerde en kleinere PowerPoint(s) kunt u in de powerpoints folder vinden.
 
 "pptx-tijdelijk\_..." folders die niet automatisch verwijderd werden kunt u zonder zorgen verwijderen.
 
